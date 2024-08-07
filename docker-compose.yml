@@ -65,6 +65,30 @@ services:
     networks:
       - openim
 
+  kafka:
+    image: "${KAFKA_IMAGE}"
+    container_name: kafka
+    user: root
+    restart: always
+    ports:
+      - "19094:9094"
+    volumes:
+      - ./scripts/create-topic.sh:/opt/bitnami/kafka/create-topic.sh
+      - "${DATA_DIR}/components/kafka:/bitnami/kafka"
+    command: >
+      bash -c "/opt/bitnami/scripts/kafka/run.sh & /opt/bitnami/kafka/create-topic.sh; wait"
+    environment:
+      #KAFKA_HEAP_OPTS: "-Xms128m -Xmx256m"
+      TZ: Asia/Shanghai
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:19094
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+    networks:
+      - openim
 
   prometheus:
     image: ${PROMETHEUS_IMAGE}

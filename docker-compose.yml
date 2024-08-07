@@ -94,22 +94,22 @@ services:
     networks:
       - openim
 
-  grafana:
-    image: ${GRAFANA_IMAGE}
-    container_name: grafana
-    user: root
-    restart: always
-    environment:
-      - GF_SECURITY_ALLOW_EMBEDDING=true
-      - GF_SESSION_COOKIE_SAMESITE=none
-      - GF_SESSION_COOKIE_SECURE=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    ports:
-      - "13000:3000"
-    volumes:
-      - ${DATA_DIR:-./}/components/grafana:/var/lib/grafana
-    networks:
-      - openim
+ # grafana:
+ #   image: ${GRAFANA_IMAGE}
+ #   container_name: grafana
+ #   user: root
+ #   restart: always
+ #   environment:
+ #     - GF_SECURITY_ALLOW_EMBEDDING=true
+ #     - GF_SESSION_COOKIE_SAMESITE=none
+ #     - GF_SESSION_COOKIE_SECURE=true
+ #     - GF_AUTH_ANONYMOUS_ENABLED=true
+ #     - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+ #   ports:
+ #     - "13000:3000"
+ #   volumes:
+ #     - ${DATA_DIR:-./}/components/grafana:/var/lib/grafana
+ #   networks:
+ #     - openim
 
 
